@@ -37,11 +37,14 @@ function render(){
         tableBody.innerHTML += 
         `<tr>
         <td>${i+1}</td>
-        <td>${allStudents[i].firstName}</td>
-        <td>${allStudents[i].lastName}</td>
-        <td>${allStudents[i].age}</td>
-        <td>${allStudents[i].Id}</td>
-        <td><button onclick="deleteStudent(${i})" class = "btn btn-primary">Delete student</button></td>
+        <td id="fName${i}">${allStudents[i].firstName}</td>
+        <td id="lName${i}">${allStudents[i].lastName}</td>
+        <td id="age${i}">${allStudents[i].age}</td>
+        <td id="Id${i}">${allStudents[i].Id}</td>
+        <td id="buttons${i}">
+        <button onclick="editStudentUI(${i})" class="btn btn-primary">Edit</button>
+        <button onclick="deleteStudent(${i})" class = "btn btn-primary">Delete</button>
+        </td>
         
         </tr>`;
     }
@@ -90,7 +93,7 @@ render();
 
 function calcID(){
     var neww;
-    neww = Math.round(Math.random()*20)+1;
+    neww = Math.round(Math.random()*100)+1;
 
     for(var i = 0 ; i < allStudents.length ; i++){
         if(neww === allStudents[i].Id){
@@ -103,6 +106,37 @@ return neww;
 function deleteStudent(index){
 
 allStudents.splice(index,1);
+render();
+
+}
+
+
+function editStudentUI(index){
+
+document.getElementById(`fName${index}`).innerHTML = `<td>
+<input
+  type="text"
+  id="firstNameEdit"
+  placeholder="Add first name"
+/>`
+document.getElementById(`lName${index}`).innerHTML = `<td>
+<input type="text" id="lastNameEdit" placeholder="Add last name" />
+</td>`
+document.getElementById(`age${index}`).innerHTML = `<td>
+<input type="number" id="ageEdit" placeholder="Add Age" />
+</td>`
+document.getElementById(`Id${index}`).innerHTML = `<td></td>`
+document.getElementById(`buttons${index}`).innerHTML = `<button class="btn btn-primary" onclick="editStudent(${index})">
+Update`
+
+}
+
+
+function editStudent(index){
+
+allStudents[index].firstName = document.getElementById("firstNameEdit").value;
+allStudents[index].lastName = document.getElementById("lastNameEdit").value;
+allStudents[index].age = document.getElementById("ageEdit").value;
 render();
 
 }
